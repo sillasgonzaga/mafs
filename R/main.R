@@ -9,11 +9,12 @@
 #' Please run avaiableModels() to see the list of available modes to use as the model.name argument of this function.
 #' @param x A ts object.
 #' @param model_name A string indicating the name of the forecast model.
+#' @param horizon the forecast horizon length
 #' @return A forecast object
 #' @examples
-#' apply_selected_model(AirPassengers, "auto.arima")
+#' apply_selected_model(AirPassengers, "auto.arima", 6)
 #' @export
-apply_selected_model <- function(x, model_name) {
+apply_selected_model <- function(x, model_name, horizon) {
 
   available_models <- available_models()
 
@@ -28,14 +29,14 @@ apply_selected_model <- function(x, model_name) {
          "stlm_ets"  = stlm(x, s.window=12, ic='aicc', robust=TRUE, method='ets'), # 6
          "stlm_arima"  = stlm(x, s.window=12, ic='aicc', robust=TRUE, method='arima'), # 7
          "StructTS"  = StructTS(x), #8
-         "meanf"  = meanf(x), #9
-         "naive"  = naive(x), #10
-         "snaive"  = snaive(x), #11
-         "rwf"  = rwf(x), #12
-         "rwf_drift"  = rwf(x, drift = TRUE),  #13 ### NOVO
-         "splinef"  = splinef(x), #14
-         "thetaf"  = thetaf(x), #15
-         "croston"  = croston(x), #16
+         "meanf"  = meanf(x, h = horizon), #9
+         "naive"  = naive(x, h = horizon), #10
+         "snaive"  = snaive(x, h = horizon), #11
+         "rwf"  = rwf(x, h = horizon), #12
+         "rwf_drift"  = rwf(x, drift = TRUE, h = horizon),  #13 ### NOVO
+         "splinef"  = splinef(x, h = horizon), #14
+         "thetaf"  = thetaf(x, h = horizon), #15
+         "croston"  = croston(x, h = horizon), #16
          "tslm"  = tslm(x ~ trend + season), #17
          "hybrid" = forecastHybrid::hybridModel(x) #18
   )
@@ -85,11 +86,12 @@ error_metrics <- function(){
 #' instead.
 #'
 #' @param x A ts object.
+#' @param horizon The forecast horizon length
 #' @return A list of forecast objects from apply_selected_model()
 #' @examples
-#' apply_all_models(austres)
+#' apply_all_models(austres, 6)
 #' @export
-apply_all_models <- function(x) {
+apply_all_models <- function(x, horizon) {
   # former aplicarTodosModelos
 
   mods <- available_models()
@@ -98,7 +100,7 @@ apply_all_models <- function(x) {
 
   for (i in 1:length(mods)) {
     mod <- mods[i]
-    fit <- try(apply_selected_model(x, mod), silent = TRUE)
+    fit <- try(apply_selected_model(x, mod, horizon), silent = TRUE)
     if (class(fit) != "try-error") models[[i]] <- fit
   }
   return(models)
@@ -106,7 +108,7 @@ apply_all_models <- function(x) {
 
 #' @title Selects best forecast model
 #' @description
-#' multiForecast is the main function of this package. It uses
+#' select_forecast is the main function of this package. It uses
 #'   apply_all_models() and other internal functions of this package to generate
 #'   generate multiple forecasts for the same time series object.
 #' @details
@@ -128,7 +130,7 @@ apply_all_models <- function(x) {
 #' @examples
 #' select_forecast(austres, 6, 12, "MAPE")
 #' @export
-select_forecast <- function(x, test_size, horizon = 3, error) {
+select_forecast <- function(x, test_size, horizon, error) {
   # Checks if defined error metric is available
   error_metrics <- error_metrics()
   if (!(error %in% error_metrics)) stop("Your error metric is not available. Please run error_metrics() to see the list of available metrics.")
@@ -136,7 +138,7 @@ select_forecast <- function(x, test_size, horizon = 3, error) {
   x_split <- CombMSC::splitTrainTest(x, length(x) - test_size)
   training <- x_split$train
   test <- x_split$test
-  models_list <- apply_all_models(training)
+  models_list <- apply_all_models(training, horizon = test_size)
 
   available_models <- available_models()
   num <- length(available_models)
@@ -190,9 +192,10 @@ select_forecast <- function(x, test_size, horizon = 3, error) {
   acc$best_model <- best_model_name
 
   # Applys apply_selected_model using the best forecast model from the previous lines
-  best_forecast <- forecast(apply_selected_model(x, best_model_name), h = horizon)
+  best_forecast <- forecast(apply_selected_model(x, best_model_name, horizon), h = horizon)
 
-  best_training_forecast <- forecast(apply_selected_model(training, best_model_name), h = test_size)
+  best_training_forecast <- apply_selected_model(training, best_model_name, horizon = test_size)
+  best_training_forecast <- forecast(best_training_forecast, h = test_size)
 
 
   ###  ===============
