@@ -41,7 +41,9 @@ apply_selected_model <- function(x, model_name) {
   )
 }
 
-#' @title list of available models in mafs package
+#' @title List of available models in mafs package
+#' @description List of available models in mafs package, imported from the
+#' forecast package.
 #' @return A character vector of the forecast models that can be used in this package.
 #' @examples
 #' available_models()
@@ -157,10 +159,22 @@ select_forecast <- function(x, test_size, horizon = 3, error) {
   # measures the accuracy of all forecast models against the test set
   acc <- lapply(forecasts, function(f) accuracy(f, test)[2,,drop=FALSE])
   # remove Theil's U (in case it exists) from matrix
+  removeTheil <- function(mat) {
+    rows <- rownames(mat)
+    cols <- colnames(mat)[1:7]
+
+    m <- matrix(mat[,1:7], ncol = 7)
+    rownames(m) <- rows
+    colnames(m) <- cols
+    return(m)
+  }
+
+  browser()
+
   acc <- lapply(acc, removeTheil)
   acc <- Reduce(rbind, acc)
   row.names(acc) <- NULL
-  acc %<>% as.data.frame
+  acc <- as.data.frame(acc)
   # Adds a column to acc to indicate the model name of the forecast row.
   # Depending the characteristics of the time series object, the hybridModel()
   # outputs nothing, which makes acc object have 17 instead of 18 rows.
@@ -179,14 +193,13 @@ select_forecast <- function(x, test_size, horizon = 3, error) {
   # Applys apply_selected_model using the best forecast model from the previous lines
   best_forecast <- forecast(apply_selected_model(x, best_model_name), h = horizon)
 
-  best_training_forecast <- apply_selected_model(training, best_model_name)
-  best_training_forecast %<>% forecast(h = test_size)
+  best_training_forecast <- forecast(apply_selected_model(training, best_model_name), h = test_size)
 
 
   ###  ===============
   # creates data.frame to output the forecast from the best model
   df_comparison <- data.frame(
-    time = as.Date.cal.yr(time(test)),
+    time = Epi::as.Date.cal.yr(time(test)),
     forecasted = as.numeric(best_training_forecast$mean)[1:test_size],
     observed = as.numeric(test)
   )
@@ -201,53 +214,3 @@ select_forecast <- function(x, test_size, horizon = 3, error) {
 
 }
 
-
-
-#' @title Plot a time series and its fitted and forecasted values
-#' @description
-#' Uses ggplot to plot a given time series as well as its fitted and
-#' forecasted values obtained with one of the forecast functions available
-#' in mafs package.
-#' @details
-#' TODO
-#' @param x A ts object.
-#' @param test_size The desired length of the test set object to be used
-#'   to measure the accuracy of the forecast models.
-#' @param horizon The forecast horizon length
-#' @param Name of the forecast model. Please run available_models() to see the full list.
-#' @return A ggplot object
-#' @examples
-#' ggplotarFit(AirPassengers, 6, 6, "ets")
-#' @export
-ggplotFit <- function(x, test_size, horizon, model_name) {
-
-  available_models <- available_models()
-  if (!(model_name %in% available_models)) stop("Your model is not available. Please run avaiableModels() to see the list of available models")
-
-  # splits x into training and test sets
-  x_split <- CombMSC::splitTrainTest(x, length(x) - test_size)
-  training <- x_split$train
-  test <- x_split$test
-
-  fcast <- apply_selected_model(training, model_name)
-  fcast <- forecast(fcast, test_size)
-
-  fit <- fitted(fcast)
-  forecasted <- fcast$mean
-
-  z <- ggseas::tsdf(cbind(x, fit, forecasted))
-  names(z) <- c("time", "observed.series", "fit", "forecasts")
-
-  z <- tidyr::gather(z, series, value, 2:4)
-  z <- dplyr::arrange(z, time)
-  #z.pontos <- tail(z, 3 * hprev)
-
-  p <- ggplot(z, aes(time, value, color = series, linetype = series)) +
-         geom_line() +
-         scale_color_manual(values = c("red", "red4", "gray")) +
-         scale_linetype_manual(values = c(2, 2, 1)) +
-         theme_bw() +
-         theme(legend.position = "bottom", legend.title = element_blank())
-return(p)
-
-}

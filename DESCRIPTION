@@ -19,9 +19,9 @@ Imports:
     CombMSC,
     ggseas,
     tidyr,
-    dplyr
+    dplyr,
+    ggplot2
 Suggests:
-    ggplot2,
     testthat
 URL: http://github.com/sillasgonzaga/mafs
 BugReports: http://github.com/sillasgonzaga/mafs/issues

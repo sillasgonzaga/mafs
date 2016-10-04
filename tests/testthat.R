@@ -1,4 +1,4 @@
 library(testthat)
 library(mafs)
 
-test_check("mafs")
+#test_check("mafs")
