@@ -1,0 +1,27 @@
+Package: mafs
+Type: Package
+Title: Multiple Automatic Forecast Selection
+Version: 0.0.0.9000
+Author: person("Sillas", "Gonzaga", email = "sillas.gonzaga@gmail.com",
+    role = c("aut", "cre"))
+Description: Fits several forecast models available from the forecast package
+    and selects the best one according to an error metric. Its main function
+    is select_forecast.
+License: MIT
+LazyData: TRUE
+Imports:
+    Epi,
+    forecast,
+    forecastHybrid,
+    lubridate,
+    magrittr,
+    CombMSC,
+    ggseas,
+    tidyr,
+    dplyr
+Suggests:
+    ggplot2,
+    testthat
+URL: TBA
+BugReports: TBA
+RoxygenNote: 5.0.1
