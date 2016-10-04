@@ -5,7 +5,7 @@ output: github_document
 
 ## Description
 
-`mafs` is basically a wrapper for the [forecast](https://github.com/robjhyndman/forecast) package. Its main function is `select_forecast`, which tests takes a time series object as an input, splits it into training and test sets, fits (currently) up to 18 forecast models into the training set, measure their accuracy against the test set, chooses the best model according to error metric defined by the user and outputs the results of the models and the forecasted future values.  
+`mafs` is basically a wrapper for the [forecast](https://github.com/robjhyndman/forecast) package. Its main function is `select_forecast`, which takes a time series object as an input, splits it into training and test sets, fits up to (currently) 18 forecast models into the training set, measure their accuracy against the test set, chooses the best model according to the error metric defined by the user and outputs the results of the models and the forecasted future values.  
 
 `mafs` is still at a very early phase with lots of room for improvement. I kindly invite all forecast analysts and practitioners to test my package and contribute to it, either by reporting issues or by pull requests. 
 
