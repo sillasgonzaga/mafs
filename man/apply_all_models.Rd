@@ -28,6 +28,5 @@ instead.
 }
 \examples{
 apply_all_models(austres)
-
 }
 

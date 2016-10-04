@@ -1,7 +1,7 @@
 ## mafs main functions: apply_selected_model(), apply_all_models(), multi_forecast(), ggplot_fit()
 
 #' @import forecast
-
+#' @import ggplot2
 
 #' @title Select a model to forecast a time series object.
 #' @description
@@ -12,7 +12,7 @@
 #' @return A forecast object
 #' @examples
 #' apply_selected_model(AirPassengers, "auto.arima")
-#'
+#' @export
 apply_selected_model <- function(x, model_name) {
 
   available_models <- available_models()
@@ -45,6 +45,7 @@ apply_selected_model <- function(x, model_name) {
 #' @return A character vector of the forecast models that can be used in this package.
 #' @examples
 #' available_models()
+#' @export
 available_models <- function() {
   return(c("auto.arima", "ets", "nnetar", "tbats", "bats","stlm_ets",
            "stlm_arima", "StructTS", "meanf", "naive", "snaive", "rwf",
@@ -62,6 +63,7 @@ available_models <- function() {
 #' @return A character vector of the error metrics that can be used in this package.
 #' @examples
 #' error_metrics()
+#' @export
 error_metrics <- function(){
   return(c("ME", "RMSE", "MAE", "MAPE", "MASE"))
 }
@@ -84,7 +86,7 @@ error_metrics <- function(){
 #' @return A list of forecast objects from apply_selected_model()
 #' @examples
 #' apply_all_models(austres)
-#'
+#' @export
 apply_all_models <- function(x) {
   # former aplicarTodosModelos
 
@@ -203,28 +205,20 @@ select_forecast <- function(x, test_size, horizon = 3, error) {
 
 #' @title Plot a time series and its fitted and forecasted values
 #' @description
-#' multiForecast is the main function of this package. It uses
-#'   apply_all_models() and other internal functions of this package to generate
-#'   generate multiple forecasts for the same time series object.
+#' Uses ggplot to plot a given time series as well as its fitted and
+#' forecasted values obtained with one of the forecast functions available
+#' in mafs package.
 #' @details
 #' TODO
 #' @param x A ts object.
 #' @param test_size The desired length of the test set object to be used
 #'   to measure the accuracy of the forecast models.
 #' @param horizon The forecast horizon length
-#' @param error The accuracy metric to be used to select the best forecast
-#'   model from apply_all_models(). See error_metrics() for the available metrics.
-#' @return A list of three objects:
-#' @section df_models:
-#'  A data.frame with the accuracy metrics of all models applied to x
-#' @section best_forecast:
-#'  A forecast object created by applying the best forecast method to x
-#' @section df_comparison:
-#'  A dataframe showing both the forecasted and the observed test set
-#'
+#' @param Name of the forecast model. Please run available_models() to see the full list.
+#' @return A ggplot object
 #' @examples
-#' select_forecast(austres, 6, 12, "MAPE")
-#'
+#' ggplotarFit(AirPassengers, 6, 6, "ets")
+#' @export
 ggplotFit <- function(x, test_size, horizon, model_name) {
 
   available_models <- available_models()

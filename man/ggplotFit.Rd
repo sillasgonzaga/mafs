@@ -14,36 +14,20 @@ to measure the accuracy of the forecast models.}
 
 \item{horizon}{The forecast horizon length}
 
-\item{error}{The accuracy metric to be used to select the best forecast
-model from apply_all_models(). See error_metrics() for the available metrics.}
+\item{Name}{of the forecast model. Please run available_models() to see the full list.}
 }
 \value{
-A list of three objects:
+A ggplot object
 }
 \description{
-multiForecast is the main function of this package. It uses
-  apply_all_models() and other internal functions of this package to generate
-  generate multiple forecasts for the same time series object.
+Uses ggplot to plot a given time series as well as its fitted and
+forecasted values obtained with one of the forecast functions available
+in mafs package.
 }
 \details{
 TODO
 }
-\section{df_models}{
-
- A data.frame with the accuracy metrics of all models applied to x
-}
-
-\section{best_forecast}{
-
- A forecast object created by applying the best forecast method to x
-}
-
-\section{df_comparison}{
-
- A dataframe showing both the forecasted and the observed test set
-}
 \examples{
-select_forecast(austres, 6, 12, "MAPE")
-
+ggplotarFit(AirPassengers, 6, 6, "ets")
 }
 
