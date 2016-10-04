@@ -169,7 +169,6 @@ select_forecast <- function(x, test_size, horizon = 3, error) {
     return(m)
   }
 
-  browser()
 
   acc <- lapply(acc, removeTheil)
   acc <- Reduce(rbind, acc)
