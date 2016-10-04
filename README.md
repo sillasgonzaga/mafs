@@ -1,19 +1,13 @@
 ---
 title: "MAFS - Multiple Automatic Forecast Selection"
-author: "Sillas Teixeira Gonzaga"
-date: "October 4, 2016"
-output: html_document
+output: github_document
 ---
-
-```{r setup, include=FALSE, echo = FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 ## Description
 
 `mafs` is basically a wrapper for the [forecast](https://github.com/robjhyndman/forecast) package. Its main function is `select_forecast`, which tests takes a time series object as an input, splits it into training and test sets, fits (currently) up to 18 forecast models into the training set, measure their accuracy against the test set, chooses the best model according to error metric defined by the user and outputs the results of the models and the forecasted future values.  
 
-`mafs` is still at a very early age with lots of room for improvement. I kindly invite all forecast analysts and practitioners to test my package and contribute to it, either by reporting issues or by pull requests. 
+`mafs` is still at a very early phase with lots of room for improvement. I kindly invite all forecast analysts and practitioners to test my package and contribute to it, either by reporting issues or by pull requests. 
 
 ## Installation
 
