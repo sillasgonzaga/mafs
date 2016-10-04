@@ -22,6 +22,7 @@ Imports:
 Suggests:
     ggplot2,
     testthat
-URL: TBA
-BugReports: TBA
+URL: http://github.com/sillasgonzaga/mafs
+BugReports: http://github.com/sillasgonzaga/mafs/issues
 RoxygenNote: 5.0.1
+
