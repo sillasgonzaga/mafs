@@ -101,7 +101,7 @@ apply_all_models <- function(x, horizon) {
   for (i in 1:length(mods)) {
     mod <- mods[i]
     fit <- try(apply_selected_model(x, mod, horizon), silent = TRUE)
-    if (class(fit) != "try-error") models[[i]] <- fit
+    if (!inherits(fit, "try-error")) models[[i]] <- fit
   }
   return(models)
 }

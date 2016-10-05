@@ -20,10 +20,14 @@ Imports:
     ggseas,
     tidyr,
     dplyr,
-    ggplot2
+    ggplot2,
+    fracdiff,
+    tseries,
+    timeDate,
+    cmprsk,
+    etm
 Suggests:
     testthat
 URL: http://github.com/sillasgonzaga/mafs
 BugReports: http://github.com/sillasgonzaga/mafs/issues
 RoxygenNote: 5.0.1
-
