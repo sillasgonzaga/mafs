@@ -23,5 +23,6 @@ devtools::install_github("sillasgonzaga/mafs")
 You can run a simple test the package with the code below
 
 ``` r
+library(mafs)
 select_forecast(AirPassengers, test_size = 6, horizon = 12, error = "MAPE")
 ```
