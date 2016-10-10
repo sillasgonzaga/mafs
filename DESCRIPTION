@@ -15,14 +15,14 @@ Imports:
     tseries,
     timeDate,
     cmprsk,
-    etm
-Suggests:
-    testthat
-Depends:
+    etm,
     forecast,
     forecastHybrid,
     CombMSC,
     Epi
+Suggests:
+    testthat
+Depends:
 URL: http://github.com/sillasgonzaga/mafs
 BugReports: http://github.com/sillasgonzaga/mafs/issues
 RoxygenNote: 5.0.1
