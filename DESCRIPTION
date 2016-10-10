@@ -29,7 +29,8 @@ Imports:
     plyr,
     numDeriv,
     Rcpp,
-    ggplot2
+    ggplot2,
+    munsell
 Suggests:
     testthat
 Depends:
