@@ -28,7 +28,8 @@ Imports:
     scales,
     plyr,
     numDeriv,
-    Rcpp
+    Rcpp,
+    ggplot2
 Suggests:
     testthat
 Depends:
