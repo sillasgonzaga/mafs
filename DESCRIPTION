@@ -27,7 +27,8 @@ Imports:
     gtable,
     scales,
     plyr,
-    numDeriv
+    numDeriv,
+    Rcpp
 Suggests:
     testthat
 Depends:
