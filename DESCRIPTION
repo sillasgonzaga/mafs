@@ -11,10 +11,6 @@ Description: Fits several forecast models available from the forecast package
 License: MIT
 LazyData: TRUE
 Imports:
-    Epi,
-    forecast,
-    forecastHybrid,
-    CombMSC,
     fracdiff,
     tseries,
     timeDate,
@@ -22,6 +18,11 @@ Imports:
     etm
 Suggests:
     testthat
+Depends:
+    forecast,
+    forecastHybrid,
+    CombMSC,
+    Epi
 URL: http://github.com/sillasgonzaga/mafs
 BugReports: http://github.com/sillasgonzaga/mafs/issues
 RoxygenNote: 5.0.1
