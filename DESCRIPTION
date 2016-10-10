@@ -19,7 +19,13 @@ Imports:
     forecast,
     forecastHybrid,
     CombMSC,
-    Epi
+    Epi,
+    quadprog,
+    colorspace,
+    zoo,
+    Rcpp,
+    gtable,
+    scales
 Suggests:
     testthat
 Depends:
