@@ -25,7 +25,9 @@ Imports:
     zoo,
     Rcpp,
     gtable,
-    scales
+    scales,
+    plyr,
+    numDeriv
 Suggests:
     testthat
 Depends:
