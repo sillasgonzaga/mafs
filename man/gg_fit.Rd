@@ -12,7 +12,7 @@ gg_fit(x, test_size, model_name)
 \item{test_size}{Integer. The desired length of the test set object to be used
 to train the model and compare the forecasted with the observed values.}
 
-\item{model_name.}{A string indicating the name of the forecast model.}
+\item{model_name}{A string indicating the name of the forecast model.}
 }
 \value{
 A ggplot object
@@ -20,9 +20,6 @@ A ggplot object
 \description{
 Applys a selected forecast model to a time series and plot the fitted
 series and the forecasted values along with the original series.
-}
-\details{
-TODO
 }
 \examples{
 gg_fit(AirPassengers, 12, "snaive")

@@ -222,7 +222,6 @@ select_forecast <- function(x, test_size, horizon, error) {
 #' @description
 #' Applys a selected forecast model to a time series and plot the fitted
 #' series and the forecasted values along with the original series.
-#'
 #' @param x A ts object.
 #' @param test_size Integer. The desired length of the test set object to be used
 #'   to train the model and compare the forecasted with the observed values.
