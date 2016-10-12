@@ -189,8 +189,7 @@ select_forecast <- function(x, test_size, horizon, error) {
   acc <- na.omit(acc) # some times stlm models produces NA.
   rownames(acc) <- seq(1, nrow(acc), 1) # fixes na.omit() bug with rownames
   ind_best_model <- if (mean(acc[[error]]) != Inf) which.min(acc[[error]]) else which.min(acc[["MAE"]])
-
-  best_model_name <- available_models[ind_best_model]
+  best_model_name <- acc$model[ind_best_model]
   acc$best_model <- best_model_name
 
   # Applys apply_selected_model using the best forecast model from the previous lines
