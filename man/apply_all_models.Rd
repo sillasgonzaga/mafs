@@ -4,10 +4,12 @@
 \alias{apply_all_models}
 \title{Fit several forecast models}
 \usage{
-apply_all_models(x)
+apply_all_models(x, horizon)
 }
 \arguments{
 \item{x}{A ts object.}
+
+\item{horizon}{The forecast horizon length}
 }
 \value{
 A list of forecast objects from apply_selected_model()
@@ -27,6 +29,6 @@ if the model returns an error, it will return a NA as the list element
 instead.
 }
 \examples{
-apply_all_models(austres)
+apply_all_models(austres, 6)
 }
 

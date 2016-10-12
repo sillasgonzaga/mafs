@@ -4,12 +4,14 @@
 \alias{apply_selected_model}
 \title{Select a model to forecast a time series object.}
 \usage{
-apply_selected_model(x, model_name)
+apply_selected_model(x, model_name, horizon)
 }
 \arguments{
 \item{x}{A ts object.}
 
 \item{model_name}{A string indicating the name of the forecast model.}
+
+\item{horizon}{the forecast horizon length}
 }
 \value{
 A forecast object
@@ -19,6 +21,6 @@ Apply a chosen forecast model to a time series object. Basically a wrapper for m
 Please run avaiableModels() to see the list of available modes to use as the model.name argument of this function.
 }
 \examples{
-apply_selected_model(AirPassengers, "auto.arima")
+apply_selected_model(AirPassengers, "auto.arima", 6)
 }
 

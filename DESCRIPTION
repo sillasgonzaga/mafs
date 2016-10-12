@@ -30,7 +30,8 @@ Imports:
     numDeriv,
     Rcpp,
     ggplot2,
-    munsell
+    munsell,
+    tidyr
 Suggests:
     testthat
 Depends:

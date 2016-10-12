@@ -4,7 +4,7 @@
 \alias{select_forecast}
 \title{Selects best forecast model}
 \usage{
-select_forecast(x, test_size, horizon = 3, error)
+select_forecast(x, test_size, horizon, error)
 }
 \arguments{
 \item{x}{A ts object.}
@@ -21,7 +21,7 @@ model from apply_all_models(). See error_metrics() for the available metrics.}
 A list of three objects:
 }
 \description{
-multiForecast is the main function of this package. It uses
+select_forecast is the main function of this package. It uses
   apply_all_models() and other internal functions of this package to generate
   generate multiple forecasts for the same time series object.
 }

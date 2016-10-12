@@ -216,3 +216,45 @@ select_forecast <- function(x, test_size, horizon, error) {
 
 }
 
+
+
+#' @title Graphical results of forecast models
+#' @description
+#' Applys a selected forecast model to a time series and plot the fitted
+#' series and the forecasted values along with the original series.
+#'
+#' @param x A ts object.
+#' @param test_size Integer. The desired length of the test set object to be used
+#'   to train the model and compare the forecasted with the observed values.
+#' @param model_name A string indicating the name of the forecast model.
+#' @return A ggplot object
+#' @examples
+#' gg_fit(AirPassengers, 12, "snaive")
+#' @export
+gg_fit <- function(x, test_size, model_name) {
+
+  x_split <- CombMSC::splitTrainTest(x, length(x) - test_size)
+  training <- x_split$train
+
+  fcast <- apply_selected_model(x = training, model_name = model_name, horizon = test_size)
+  fcast <- forecast(fcast, h = test_size)
+
+  fit <- fitted(fcast)
+  forecasted <- fcast$mean
+
+  z <- ggseas::tsdf(cbind(x, fit, forecasted))
+  names(z) <- c("Time", "Original Series", "Fitted series", "Forecast")
+
+  z <- tidyr::gather(z, series, value, 2:4)
+  z <- z[order(z$Time), ]
+  z.points <- tail(z, test_size * 3) # 3 is the number of series of z
+
+  p <- ggplot(z, aes(Time, value, color = series, linetype = series)) +
+    geom_line() +
+    geom_point(data = z.points) +
+    scale_color_manual(values = c("red4", "red", "black")) +
+    scale_linetype_manual(values = c(2, 2, 1)) +
+    theme(legend.position = "bottom", legend.title = element_blank())
+
+  return(p)
+}
