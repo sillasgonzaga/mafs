@@ -186,7 +186,6 @@ select_forecast <- function(x, test_size, horizon, error) {
   # time series is intermitent, the MAPE might be Inf. To handle this, if MAPE
   # is Inf in all columns, it uses MAE as the error metric to select the best
   # forecast model.
-  browser() # deletar essa linha
   acc <- na.omit(acc) # some times stlm models produces NA.
   rownames(acc) <- seq(1, nrow(acc), 1) # fixes na.omit() bug with rownames
   ind_best_model <- if (mean(acc[[error]]) != Inf) which.min(acc[[error]]) else which.min(acc[["MAE"]])
