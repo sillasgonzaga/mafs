@@ -180,7 +180,6 @@ select_forecast <- function(x, test_size, horizon, error) {
   # Depending the characteristics of the time series object, the hybridModel()
   # outputs nothing, which makes acc object have 17 instead of 18 rows.
   # Therefore, the line below is necessary to handle this situation
-  browser()
   acc$model <- if (nrow(acc) == 18) available_models else available_models[-18]
 
   # Selects row of minimum error. In case the error defined is MAPE and the
