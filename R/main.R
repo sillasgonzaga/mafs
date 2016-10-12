@@ -245,6 +245,8 @@ gg_fit <- function(x, test_size, model_name) {
   z <- ggseas::tsdf(cbind(x, fit, forecasted))
   names(z) <- c("Time", "Original Series", "Fitted series", "Forecast")
 
+  z$Time <- Epi::as.Date.cal.yr(z$Time)
+
   z <- tidyr::gather(z, series, value, 2:4)
   z <- z[order(z$Time), ]
   z.points <- tail(z, test_size * 3) # 3 is the number of series of z
