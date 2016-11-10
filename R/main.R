@@ -67,7 +67,9 @@ available_models <- function() {
 #' @examples
 #' error_metrics()
 #' @export
-error_metrics <- function(){return(c("ME", "RMSE", "MAE", "MAPE", "MASE"))}
+error_metrics <- function(){
+  return(c("ME", "RMSE", "MAE", "MAPE", "MASE"))
+  }
 
 #' @title Fit several forecast models
 #' @description
