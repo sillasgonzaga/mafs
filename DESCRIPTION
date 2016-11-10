@@ -2,9 +2,8 @@ Package: mafs
 Type: Package
 Title: Multiple Automatic Forecast Selection
 Version: 0.0.0.9000
-Author: person("Sillas", "Gonzaga", email = "sillas.gonzaga@gmail.com",
+Authors@R: person("Sillas", "Gonzaga", email = "sillas.gonzaga@gmail.com",
     role = c("aut", "cre"))
-Maintainer: Sillas Gonzaga <sillas.gonzaga@gmail.com>
 Description: Fits several forecast models available from the forecast package
     and selects the best one according to an error metric. Its main function
     is select_forecast.
@@ -31,7 +30,8 @@ Imports:
     Rcpp,
     ggplot2,
     munsell,
-    tidyr
+    tidyr,
+    ggseas
 Suggests:
     testthat
 Depends:
