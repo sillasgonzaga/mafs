@@ -90,7 +90,9 @@ error_metrics <- function(){
 #' @param horizon The forecast horizon length
 #' @return A list of forecast objects from apply_selected_model()
 #' @examples
+#' \dontrun{
 #' apply_all_models(austres, 6)
+#' }
 #' @export
 apply_all_models <- function(x, horizon) {
   # former aplicarTodosModelos

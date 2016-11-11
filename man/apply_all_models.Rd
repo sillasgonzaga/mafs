@@ -29,6 +29,8 @@ if the model returns an error, it will return a NA as the list element
 instead.
 }
 \examples{
+\dontrun{
 apply_all_models(austres, 6)
+}
 }
 
