@@ -3,7 +3,7 @@
 #' @import forecast
 #' @import ggplot2
 #' @import stats
-#' @import ("utils")
+#' @import utils
 #' @title Select a model to forecast a time series object.
 #' @description
 #' Apply a chosen forecast model to a time series object. Basically a wrapper for many functions from the forecast package.
@@ -250,11 +250,11 @@ gg_fit <- function(x, test_size, model_name) {
 
   z$Time <- Epi::as.Date.cal.yr(z$Time)
 
-  z <- tidyr::gather(z, series, value, 2:4)
+  z <- tidyr::gather_(z, "series", "value", names(z)[2:4])
   z <- z[order(z$Time), ]
   z.points <- tail(z, test_size * 3) # 3 is the number of series of z
 
-  p <- ggplot(z, aes(Time, value, color = series, linetype = series)) +
+  p <- ggplot(z, aes_string("Time", "value", color = "series", linetype = "series")) +
     geom_line() +
     geom_point(data = z.points) +
     scale_color_manual(values = c("red4", "red", "black")) +

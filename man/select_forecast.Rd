@@ -42,4 +42,9 @@ TODO
 
  A dataframe showing both the forecasted and the observed test set
 }
+\examples{
+\dontrun{
+select_forecast(austres, 6, 12, "MAPE")
+}
+}
 
