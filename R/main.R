@@ -2,7 +2,8 @@
 
 #' @import forecast
 #' @import ggplot2
-
+#' @import stats
+#' @import ("utils")
 #' @title Select a model to forecast a time series object.
 #' @description
 #' Apply a chosen forecast model to a time series object. Basically a wrapper for many functions from the forecast package.
