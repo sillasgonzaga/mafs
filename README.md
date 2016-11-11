@@ -26,3 +26,6 @@ You can run a simple test the package with the code below
 library(mafs)
 select_forecast(AirPassengers, test_size = 6, horizon = 12, error = "MAPE")
 ```
+## Shiny App
+
+[Shiny app](https://sillasgonzaga.shinyapps.io/shiny-mafs/) demonstration of the models included in `mafs`.

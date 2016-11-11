@@ -4,3 +4,5 @@
 ^README-.*\.png$
 ^README\.md$
 ^cran-comments\.md$
+^shinyapp/server.R$
+^shinyapp/ui.R$
