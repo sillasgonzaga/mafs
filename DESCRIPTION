@@ -6,7 +6,7 @@ Authors@R: person("Sillas", "Gonzaga", email = "sillas.gonzaga@gmail.com",
     role = c("aut", "cre"))
 Description: Fits several forecast models available from the forecast package
     and selects the best one according to an error metric. Its main function
-    is select_forecast.
+    is select_forecast().
 License: GPL-2 | file LICENSE
 LazyData: TRUE
 Imports:
