@@ -7,7 +7,7 @@ Authors@R: person("Sillas", "Gonzaga", email = "sillas.gonzaga@gmail.com",
 Description: Fits several forecast models available from the forecast package
     and selects the best one according to an error metric. Its main function
     is select_forecast.
-License: MIT
+License: GPL-3 | file LICENSE
 LazyData: TRUE
 Imports:
     fracdiff,
@@ -27,11 +27,11 @@ Imports:
     scales,
     plyr,
     numDeriv,
-    Rcpp,
     ggplot2,
     munsell,
     tidyr,
-    ggseas
+    ggseas,
+    stats
 Suggests:
     testthat
 Depends:

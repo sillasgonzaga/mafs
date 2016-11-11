@@ -42,7 +42,4 @@ TODO
 
  A dataframe showing both the forecasted and the observed test set
 }
-\examples{
-select_forecast(austres, 6, 12, "MAPE")
-}
 
