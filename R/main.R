@@ -128,6 +128,10 @@ apply_all_models <- function(x, horizon) {
 #' @section df_comparison:
 #'  A dataframe showing both the forecasted and the observed test set
 #'
+#' @examples
+#' \dontrun{
+#' select_forecast(austres, 6, 12, "MAPE")
+#' }
 #' @export
 select_forecast <- function(x, test_size, horizon, error) {
   # Checks if defined error metric is available
