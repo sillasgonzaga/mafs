@@ -108,11 +108,11 @@ apply_all_models <- function(x, horizon, dont_apply = "") {
   for (i in 1:length(mods)) {
     mod <- mods[i]
     ## add run time
-    tic()
+    tictoc::tic()
 
     fit <- try(apply_selected_model(x, mod, horizon), silent = TRUE)
 
-    runtime <- toc(quiet = TRUE)
+    runtime <- tictoc::toc(quiet = TRUE)
     runtime <- runtime$toc - runtime$tic
 
     if (!inherits(fit, "try-error")) {

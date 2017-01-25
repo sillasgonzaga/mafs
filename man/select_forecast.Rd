@@ -4,7 +4,7 @@
 \alias{select_forecast}
 \title{Selects best forecast model}
 \usage{
-select_forecast(x, test_size, horizon, error)
+select_forecast(x, test_size, horizon, error, dont_apply = "")
 }
 \arguments{
 \item{x}{A ts object.}
@@ -16,6 +16,9 @@ to measure the accuracy of the forecast models.}
 
 \item{error}{The accuracy metric to be used to select the best forecast
 model from apply_all_models(). See error_metrics() for the available metrics.}
+
+\item{dont_apply}{Character vector. Choose one or more models that will not
+be used on select_forecast().}
 }
 \value{
 A list of three objects:

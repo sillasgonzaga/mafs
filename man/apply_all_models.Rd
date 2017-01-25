@@ -4,12 +4,15 @@
 \alias{apply_all_models}
 \title{Fit several forecast models}
 \usage{
-apply_all_models(x, horizon)
+apply_all_models(x, horizon, dont_apply = "")
 }
 \arguments{
 \item{x}{A ts object.}
 
 \item{horizon}{The forecast horizon length}
+
+\item{dont_apply}{Character vector. Choose one or more models that will not
+be used on select_forecast().}
 }
 \value{
 A list of forecast objects from apply_selected_model()
