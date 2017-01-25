@@ -39,7 +39,7 @@ apply_selected_model <- function(x, model_name, horizon) {
          "thetaf"  = thetaf(x, h = horizon), #15
          "croston"  = croston(x, h = horizon), #16
          "tslm"  = tslm(x ~ trend + season), #17
-         "hybrid" = forecastHybrid::hybridModel(x) #18
+         "hybrid" = forecastHybrid::hybridModel(x, verbose = FALSE) #18
   )
 }
 
@@ -88,25 +88,45 @@ error_metrics <- function(){
 #'
 #' @param x A ts object.
 #' @param horizon The forecast horizon length
+#' @param dont_apply Character vector. Choose one or more models that will not
+#'   be used on select_forecast().
 #' @return A list of forecast objects from apply_selected_model()
 #' @examples
 #' \dontrun{
 #' apply_all_models(austres, 6)
 #' }
 #' @export
-apply_all_models <- function(x, horizon) {
+apply_all_models <- function(x, horizon, dont_apply = "") {
   # former aplicarTodosModelos
 
   mods <- available_models()
+  mods <- mods[!(mods %in% dont_apply)]
   models <- list() # initiates empty list to be filled by forecast models
-
+  runtime_model <- rep(NA, length(mods)) # empty vector to store runtime values
+  models_names <- rep(NA, length(mods))
 
   for (i in 1:length(mods)) {
     mod <- mods[i]
+    ## add run time
+    tic()
+
     fit <- try(apply_selected_model(x, mod, horizon), silent = TRUE)
-    if (!inherits(fit, "try-error")) models[[i]] <- fit
+
+    runtime <- toc(quiet = TRUE)
+    runtime <- runtime$toc - runtime$tic
+
+    if (!inherits(fit, "try-error")) {
+      models[[i]] <- fit
+      models_names[i] <- mod
+      runtime_model[i] <- unname(runtime)
+    }
   }
-  return(models)
+
+  # create data frame of model name and its runtime
+  df_runtime <- data.frame(model = models_names,
+                           runtime_model,
+                           stringsAsFactors = FALSE)
+  return(list(models = models, df_runtime = df_runtime))
 }
 
 #' @title Selects best forecast model
@@ -122,6 +142,8 @@ apply_all_models <- function(x, horizon) {
 #' @param horizon The forecast horizon length
 #' @param error The accuracy metric to be used to select the best forecast
 #'   model from apply_all_models(). See error_metrics() for the available metrics.
+#' @param dont_apply Character vector. Choose one or more models that will not
+#'   be used on select_forecast().
 #' @return A list of three objects:
 #' @section df_models:
 #'  A data.frame with the accuracy metrics of all models applied to x
@@ -135,15 +157,25 @@ apply_all_models <- function(x, horizon) {
 #' select_forecast(austres, 6, 12, "MAPE")
 #' }
 #' @export
-select_forecast <- function(x, test_size, horizon, error) {
+select_forecast <- function(x, test_size, horizon, error, dont_apply = "") {
   # Checks if defined error metric is available
   error_metrics <- error_metrics()
   if (!(error %in% error_metrics)) stop("Your error metric is not available. Please run error_metrics() to see the list of available metrics.")
 
+  #browser()
+
   x_split <- CombMSC::splitTrainTest(x, length(x) - test_size)
   training <- x_split$train
   test <- x_split$test
-  models_list <- apply_all_models(training, horizon = test_size)
+  temp <- apply_all_models(training, horizon = test_size, dont_apply = dont_apply)
+
+  models_list <- temp$models
+  df_runtime <- temp$df_runtime
+
+  # retirar NAs do df_runtime
+  df_runtime <- subset(df_runtime, !is.na(df_runtime$model))
+
+  rm(temp)
 
   available_models <- available_models()
   num <- length(available_models)
@@ -181,24 +213,27 @@ select_forecast <- function(x, test_size, horizon, error) {
   acc <- Reduce(rbind, acc)
   row.names(acc) <- NULL
   acc <- as.data.frame(acc)
-  # Adds a column to acc to indicate the model name of the forecast row.
-  # Depending the characteristics of the time series object, the hybridModel()
-  # outputs nothing, which makes acc object have 17 instead of 18 rows.
-  # Therefore, the line below is necessary to handle this situation
-  acc$model <- if (nrow(acc) == 18) available_models else available_models[-18]
+
+  acc <- na.omit(acc) # some times stlm models produces NA.
+  rownames(acc) <- seq(1, nrow(acc), 1) # fixes na.omit() bug with rownames
+  acc$model <- df_runtime$model
+
+  # DECIDIR COMO DEFINIR coluna model
+
+
 
   # Selects row of minimum error. In case the error defined is MAPE and the
   # time series is intermitent, the MAPE might be Inf. To handle this, if MAPE
   # is Inf in all columns, it uses MAE as the error metric to select the best
   # forecast model.
-  acc <- na.omit(acc) # some times stlm models produces NA.
-  rownames(acc) <- seq(1, nrow(acc), 1) # fixes na.omit() bug with rownames
+
   ind_best_model <- if (mean(acc[[error]]) != Inf) which.min(acc[[error]]) else which.min(acc[["MAE"]])
   best_model_name <- acc$model[ind_best_model]
   acc$best_model <- best_model_name
 
   # Applys apply_selected_model using the best forecast model from the previous lines
-  best_forecast <- forecast(apply_selected_model(x, best_model_name, horizon), h = horizon)
+  best_forecast <- apply_selected_model(x, best_model_name, horizon)
+  best_forecast <- forecast(best_forecast, h = horizon)
 
   best_training_forecast <- apply_selected_model(training, best_model_name, horizon = test_size)
   best_training_forecast <- forecast(best_training_forecast, h = test_size)
@@ -212,11 +247,15 @@ select_forecast <- function(x, test_size, horizon, error) {
     observed = as.numeric(test)
   )
 
+  # add runtime column to df_models data frame
+  df_models <- merge(acc, df_runtime, by = "model", all.y = TRUE)
+
   return(
     list(
-      df_models = acc,
+      df_models = df_models,
       best_forecast = best_forecast,
-      df_comparison = df_comparison)
+      df_comparison = df_comparison
+      )
     )
 
 
