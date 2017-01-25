@@ -3,6 +3,8 @@ title: "MAFS - Multiple Automatic Forecast Selection"
 output: github_document
 ---
 
+Current version: 0.0.3
+
 ## Description
 
 `mafs` is basically a wrapper for the [forecast](https://github.com/robjhyndman/forecast) package. Its main function is `select_forecast`, which takes a time series object as an input, splits it into training and test sets, fits up to (currently) 18 forecast models into the training set, measure their accuracy against the test set, chooses the best model according to the error metric defined by the user and outputs the results of the models and the forecasted future values.   
