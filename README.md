@@ -3,7 +3,7 @@ title: "MAFS - Multiple Automatic Forecast Selection"
 output: github_document
 ---
 
-Current version: 0.0.3
+Current version: 0.0.2
 
 ## Description
 
