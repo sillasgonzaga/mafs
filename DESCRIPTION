@@ -31,7 +31,8 @@ Imports:
     munsell,
     tidyr,
     ggseas,
-    stats
+    stats,
+    tictoc
 Suggests:
     testthat
 Depends:
