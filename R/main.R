@@ -19,7 +19,9 @@ apply_selected_model <- function(x, model_name, horizon) {
 
   available_models <- available_models()
 
-  if (!(model_name %in% available_models)) stop("Your model is not available. Please run avaiableModels() to see the list of available models")
+  if (!(model_name %in% available_models)) {
+    stop("Your model is not available. Please run avaiableModels() to see the list of available models")
+  }
   # former aplicarMelhorModelo()
   switch(model_name,
          "auto.arima" = auto.arima(x, ic='aicc', stepwise=FALSE), # 1
@@ -40,6 +42,7 @@ apply_selected_model <- function(x, model_name, horizon) {
          "croston"  = croston(x, h = horizon), #16
          "tslm"  = tslm(x ~ trend + season), #17
          "hybrid" = forecastHybrid::hybridModel(x, verbose = FALSE) #18
+         #"baggedETS" = baggedETS(x)
   )
 }
 
@@ -53,7 +56,8 @@ apply_selected_model <- function(x, model_name, horizon) {
 available_models <- function() {
   return(c("auto.arima", "ets", "nnetar", "tbats", "bats","stlm_ets",
            "stlm_arima", "StructTS", "meanf", "naive", "snaive", "rwf",
-           "rwf_drift", "splinef", "thetaf", "croston", "tslm", "hybrid"))
+           "rwf_drift", "splinef", "thetaf", "croston", "tslm", "hybrid"))#,
+           #"baggedETS"))
 }
 
 
@@ -78,7 +82,7 @@ error_metrics <- function(){
 #' @details
 #' This functions loops the output from available_models(), uses it as the
 #' model.name argument for apply_selected_model() and return a list of length
-#' 18 in which each element is a forecast model.
+#' 19 in which each element is a forecast model.
 #' Depending on some of the characteristics of the time series object used as
 #' the input for this function, the model might not be created. For example,
 #' if you try to fit a neural network model to a short time series, it will
@@ -196,6 +200,7 @@ select_forecast <- function(x, test_size, horizon, error, dont_apply = "") {
                                                          return(x)}))
 
   # measures the accuracy of all forecast models against the test set
+  browser()
   acc <- lapply(forecasts, function(f) accuracy(f, test)[2,,drop=FALSE])
   # remove Theil's U (in case it exists) from matrix
   removeTheil <- function(mat) {
