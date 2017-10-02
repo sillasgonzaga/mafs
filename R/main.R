@@ -42,7 +42,7 @@ apply_selected_model <- function(x, model_name, horizon) {
          "croston"  = croston(x, h = horizon), #16
          "tslm"  = tslm(x ~ trend + season), #17
          "hybrid" = forecastHybrid::hybridModel(x, verbose = FALSE) #18
-         #"baggedETS" = baggedETS(x)
+         #,"baggedETS" = baggedETS(x)
   )
 }
 
@@ -54,10 +54,12 @@ apply_selected_model <- function(x, model_name, horizon) {
 #' available_models()
 #' @export
 available_models <- function() {
-  return(c("auto.arima", "ets", "nnetar", "tbats", "bats","stlm_ets",
-           "stlm_arima", "StructTS", "meanf", "naive", "snaive", "rwf",
-           "rwf_drift", "splinef", "thetaf", "croston", "tslm", "hybrid"))#,
-           #"baggedETS"))
+  return(c(
+    "auto.arima", "ets", "nnetar", "tbats", "bats","stlm_ets",
+    "stlm_arima", "StructTS", "meanf", "naive", "snaive", "rwf",
+    "rwf_drift", "splinef", "thetaf", "croston", "tslm", "hybrid"
+    #"baggedETS"
+    ))
 }
 
 
@@ -100,7 +102,7 @@ error_metrics <- function(){
 #' apply_all_models(austres, 6)
 #' }
 #' @export
-apply_all_models <- function(x, horizon, dont_apply = "") {
+apply_all_models <- function(x, horizon, dont_apply = "", verbose = FALSE) {
   # former aplicarTodosModelos
 
   mods <- available_models()
@@ -111,6 +113,10 @@ apply_all_models <- function(x, horizon, dont_apply = "") {
 
   for (i in 1:length(mods)) {
     mod <- mods[i]
+    ## prints message if verbose is TRUE
+    if (verbose) {
+      message(sprintf("Applying model %s", mod))
+    }
     ## add run time
     tictoc::tic()
 
@@ -161,7 +167,7 @@ apply_all_models <- function(x, horizon, dont_apply = "") {
 #' select_forecast(austres, 6, 12, "MAPE")
 #' }
 #' @export
-select_forecast <- function(x, test_size, horizon, error, dont_apply = "") {
+select_forecast <- function(x, test_size, horizon, error, dont_apply = "", verbose = FALSE) {
   # Checks if defined error metric is available
   error_metrics <- error_metrics()
   if (!(error %in% error_metrics)) stop("Your error metric is not available. Please run error_metrics() to see the list of available metrics.")
@@ -171,7 +177,8 @@ select_forecast <- function(x, test_size, horizon, error, dont_apply = "") {
   x_split <- CombMSC::splitTrainTest(x, length(x) - test_size)
   training <- x_split$train
   test <- x_split$test
-  temp <- apply_all_models(training, horizon = test_size, dont_apply = dont_apply)
+  temp <- apply_all_models(training, horizon = test_size,
+                           dont_apply = dont_apply, verbose = verbose)
 
   models_list <- temp$models
   df_runtime <- temp$df_runtime
@@ -200,7 +207,7 @@ select_forecast <- function(x, test_size, horizon, error, dont_apply = "") {
                                                          return(x)}))
 
   # measures the accuracy of all forecast models against the test set
-  browser()
+
   acc <- lapply(forecasts, function(f) accuracy(f, test)[2,,drop=FALSE])
   # remove Theil's U (in case it exists) from matrix
   removeTheil <- function(mat) {

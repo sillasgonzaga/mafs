@@ -6,3 +6,5 @@
 ^cran-comments\.md$
 ^shinyapp/server.R$
 ^shinyapp/ui.R$
+^data-raw$
+^shiny-mafs$
