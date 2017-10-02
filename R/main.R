@@ -174,7 +174,7 @@ select_forecast <- function(x, test_size, horizon, error, dont_apply = "", verbo
   error_metrics <- error_metrics()
   if (!(error %in% error_metrics)) stop("Your error metric is not available. Please run error_metrics() to see the list of available metrics.")
 
-  #browser()
+
 
   x_split <- CombMSC::splitTrainTest(x, length(x) - test_size)
   training <- x_split$train
@@ -209,7 +209,6 @@ select_forecast <- function(x, test_size, horizon, error, dont_apply = "", verbo
                                                          return(x)}))
 
   # measures the accuracy of all forecast models against the test set
-
   acc <- lapply(forecasts, function(f) accuracy(f, test)[2,,drop=FALSE])
   # remove Theil's U (in case it exists) from matrix
   removeTheil <- function(mat) {
@@ -228,7 +227,11 @@ select_forecast <- function(x, test_size, horizon, error, dont_apply = "", verbo
   row.names(acc) <- NULL
   acc <- as.data.frame(acc)
 
-  acc <- na.omit(acc) # some times stlm models produces NA.
+  # remove rows where the chosen metric has an invalid result
+  ind_rm <- which(is.na(acc[[error]]))
+  acc <- acc[-ind_rm, ]
+
+  #acc <- na.omit(acc) # some times stlm models produces NA.
   rownames(acc) <- seq(1, nrow(acc), 1) # fixes na.omit() bug with rownames
   acc$model <- df_runtime$model
 
