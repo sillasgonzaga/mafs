@@ -96,7 +96,7 @@ error_metrics <- function(){
 #' @param horizon The forecast horizon length
 #' @param dont_apply Character vector. Choose one or more models that will not
 #'   be used on select_forecast().
-#' @param logical. Set TRUE if you want mafs to tell you what models are running.
+#' @param verbose logical. Set TRUE if you want mafs to tell you what models are running.
 #' @return A list of forecast objects from apply_selected_model()
 #' @examples
 #' \dontrun{
