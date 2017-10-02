@@ -4,7 +4,8 @@
 \alias{select_forecast}
 \title{Selects best forecast model}
 \usage{
-select_forecast(x, test_size, horizon, error, dont_apply = "")
+select_forecast(x, test_size, horizon, error, dont_apply = "",
+  verbose = FALSE)
 }
 \arguments{
 \item{x}{A ts object.}
@@ -19,6 +20,8 @@ model from apply_all_models(). See error_metrics() for the available metrics.}
 
 \item{dont_apply}{Character vector. Choose one or more models that will not
 be used on select_forecast().}
+
+\item{verbose}{logical. Set TRUE if you want mafs to tell you what models are running.}
 }
 \value{
 A list of three objects:
@@ -45,9 +48,9 @@ TODO
 
  A dataframe showing both the forecasted and the observed test set
 }
+
 \examples{
 \dontrun{
 select_forecast(austres, 6, 12, "MAPE")
 }
 }
-

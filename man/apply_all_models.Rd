@@ -4,7 +4,7 @@
 \alias{apply_all_models}
 \title{Fit several forecast models}
 \usage{
-apply_all_models(x, horizon, dont_apply = "")
+apply_all_models(x, horizon, dont_apply = "", verbose = FALSE)
 }
 \arguments{
 \item{x}{A ts object.}
@@ -13,6 +13,8 @@ apply_all_models(x, horizon, dont_apply = "")
 
 \item{dont_apply}{Character vector. Choose one or more models that will not
 be used on select_forecast().}
+
+\item{logical.}{Set TRUE if you want mafs to tell you what models are running.}
 }
 \value{
 A list of forecast objects from apply_selected_model()
@@ -23,7 +25,7 @@ Create a list of all possible forecast models for the inputed time series object
 \details{
 This functions loops the output from available_models(), uses it as the
 model.name argument for apply_selected_model() and return a list of length
-18 in which each element is a forecast model.
+19 in which each element is a forecast model.
 Depending on some of the characteristics of the time series object used as
 the input for this function, the model might not be created. For example,
 if you try to fit a neural network model to a short time series, it will
@@ -36,4 +38,3 @@ instead.
 apply_all_models(austres, 6)
 }
 }
-

@@ -96,6 +96,7 @@ error_metrics <- function(){
 #' @param horizon The forecast horizon length
 #' @param dont_apply Character vector. Choose one or more models that will not
 #'   be used on select_forecast().
+#' @param logical. Set TRUE if you want mafs to tell you what models are running.
 #' @return A list of forecast objects from apply_selected_model()
 #' @examples
 #' \dontrun{
@@ -154,6 +155,7 @@ apply_all_models <- function(x, horizon, dont_apply = "", verbose = FALSE) {
 #'   model from apply_all_models(). See error_metrics() for the available metrics.
 #' @param dont_apply Character vector. Choose one or more models that will not
 #'   be used on select_forecast().
+#' @param verbose logical. Set TRUE if you want mafs to tell you what models are running.
 #' @return A list of three objects:
 #' @section df_models:
 #'  A data.frame with the accuracy metrics of all models applied to x

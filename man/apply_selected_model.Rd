@@ -23,4 +23,3 @@ Please run avaiableModels() to see the list of available modes to use as the mod
 \examples{
 apply_selected_model(AirPassengers, "auto.arima", 6)
 }
-

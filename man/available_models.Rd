@@ -16,4 +16,3 @@ forecast package.
 \examples{
 available_models()
 }
-

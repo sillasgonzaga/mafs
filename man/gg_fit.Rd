@@ -24,4 +24,3 @@ series and the forecasted values along with the original series.
 \examples{
 gg_fit(AirPassengers, 12, "snaive")
 }
-

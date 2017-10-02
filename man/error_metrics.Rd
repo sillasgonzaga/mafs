@@ -21,4 +21,3 @@ metric.
 \examples{
 error_metrics()
 }
-

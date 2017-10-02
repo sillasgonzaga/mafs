@@ -38,4 +38,4 @@ Suggests:
 Depends:
 URL: http://github.com/sillasgonzaga/mafs
 BugReports: http://github.com/sillasgonzaga/mafs/issues
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
