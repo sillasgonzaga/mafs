@@ -221,15 +221,14 @@ select_forecast <- function(x, test_size, horizon, error, dont_apply = "", verbo
     return(m)
   }
 
-
   acc <- lapply(acc, removeTheil)
   acc <- Reduce(rbind, acc)
   row.names(acc) <- NULL
   acc <- as.data.frame(acc)
 
-  # remove rows where the chosen metric has an invalid result
+  # remove rows where the chosen metric has an invalid result (if there is any)
   ind_rm <- which(is.na(acc[[error]]))
-  acc <- acc[-ind_rm, ]
+  if (length(ind_rm) > 0) acc <- acc[-ind_rm, ]
 
   #acc <- na.omit(acc) # some times stlm models produces NA.
   rownames(acc) <- seq(1, nrow(acc), 1) # fixes na.omit() bug with rownames
