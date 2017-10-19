@@ -1,7 +1,7 @@
 Package: mafs
 Type: Package
 Title: Multiple Automatic Forecast Selection
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: person("Sillas", "Gonzaga", email = "sillas.gonzaga@gmail.com",
     role = c("aut", "cre"))
 Description: Fits several forecast models available from the forecast package
