@@ -7,7 +7,7 @@
 #' @title Select a model to forecast a time series object.
 #' @description
 #' Apply a chosen forecast model to a time series object. Basically a wrapper for many functions from the forecast package.
-#' Please run avaiableModels() to see the list of available modes to use as the model.name argument of this function.
+#' Please run available_models() to see the list of available modes to use as the model.name argument of this function.
 #' @param x A ts object.
 #' @param model_name A string indicating the name of the forecast model.
 #' @param horizon the forecast horizon length
@@ -247,7 +247,7 @@ select_forecast <- function(x, test_size, horizon, error, dont_apply = "", verbo
   best_model_name <- acc$model[ind_best_model]
   acc$best_model <- best_model_name
 
-  # Applys apply_selected_model using the best forecast model from the previous lines
+  # Applies apply_selected_model using the best forecast model from the previous lines
   best_forecast <- apply_selected_model(x, best_model_name, horizon)
   best_forecast <- forecast(best_forecast, h = horizon)
 
@@ -281,13 +281,13 @@ select_forecast <- function(x, test_size, horizon, error, dont_apply = "", verbo
 
 #' @title Graphical results of forecast models
 #' @description
-#' Applys a selected forecast model to a time series and plot the fitted
+#' Applies a selected forecast model to a time series and plot the fitted
 #' series and the forecasted values along with the original series.
 #' @param x A ts object.
 #' @param test_size Integer. The desired length of the test set object to be used
 #'   to train the model and compare the forecasted with the observed values.
 #' @param model_name A string indicating the name of the forecast model.
-#' @return A ggplot object
+#' @return A ggplot2 object
 #' @examples
 #' gg_fit(AirPassengers, 12, "snaive")
 #' @export

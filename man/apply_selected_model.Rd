@@ -18,7 +18,7 @@ A forecast object
 }
 \description{
 Apply a chosen forecast model to a time series object. Basically a wrapper for many functions from the forecast package.
-Please run avaiableModels() to see the list of available modes to use as the model.name argument of this function.
+Please run available_models() to see the list of available modes to use as the model.name argument of this function.
 }
 \examples{
 apply_selected_model(AirPassengers, "auto.arima", 6)
