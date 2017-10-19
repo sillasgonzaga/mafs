@@ -21,5 +21,7 @@ Apply a chosen forecast model to a time series object. Basically a wrapper for m
 Please run available_models() to see the list of available modes to use as the model.name argument of this function.
 }
 \examples{
+\dontrun{
 apply_selected_model(AirPassengers, "auto.arima", 6)
+}
 }

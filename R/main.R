@@ -13,7 +13,9 @@
 #' @param horizon the forecast horizon length
 #' @return A forecast object
 #' @examples
+#' \dontrun{
 #' apply_selected_model(AirPassengers, "auto.arima", 6)
+#' }
 #' @export
 apply_selected_model <- function(x, model_name, horizon) {
 
