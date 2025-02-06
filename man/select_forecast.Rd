@@ -4,8 +4,7 @@
 \alias{select_forecast}
 \title{Selects best forecast model}
 \usage{
-select_forecast(x, test_size, horizon, error, dont_apply = "",
-  verbose = FALSE)
+select_forecast(x, test_size, horizon, error, dont_apply = "", verbose = FALSE)
 }
 \arguments{
 \item{x}{A ts object.}
