@@ -1,5 +1,33 @@
 ## mafs main functions: apply_selected_model(), apply_all_models(), multi_forecast(), ggplot_fit()
 
+#' Split Time Series Data into Training and Testing Sets
+#'
+#' This function splits a time series object into training and testing sets.
+#'
+#' @param dat A time series object (of class `ts`).
+#' @param numTrain An integer specifying the number of observations to include in the training set.
+#'        Defaults to `length(dat) - 10`.
+#'
+#' @return A list containing:
+#' 	\item{train}{A time series object containing the training data.}
+#' 	\item{test}{A time series object containing the testing data.}
+#'
+#' @examples
+#' ts_data <- ts(1:100, start = c(2000, 1), frequency = 12)
+#' split_data <- splitTrainTest(ts_data, numTrain = 80)
+#' train_set <- split_data$train
+#' test_set <- split_data$test
+#'
+#' @export
+splitTrainTest <- function(dat, numTrain = length(dat)-10){
+  if (!inherits(dat, "ts")) stop("dat must be a time series object.")
+  props = attributes(dat)$tsp
+  train = ts(dat[1:numTrain], start = props[1], freq= props[3])
+  test = ts(dat[(numTrain+1):length(dat)], start = (props[1]+numTrain/props[3]), freq=props[3])
+   return(list(train= train, test=test))
+}
+
+
 #' @import forecast
 #' @import ggplot2
 #' @import stats
@@ -178,7 +206,7 @@ select_forecast <- function(x, test_size, horizon, error, dont_apply = "", verbo
 
 
 
-  x_split <- CombMSC::splitTrainTest(x, length(x) - test_size)
+  x_split <- splitTrainTest(x, length(x) - test_size)
   training <- x_split$train
   test <- x_split$test
   temp <- apply_all_models(training, horizon = test_size,
@@ -295,7 +323,7 @@ select_forecast <- function(x, test_size, horizon, error, dont_apply = "", verbo
 #' @export
 gg_fit <- function(x, test_size, model_name) {
 
-  x_split <- CombMSC::splitTrainTest(x, length(x) - test_size)
+  x_split <- splitTrainTest(x, length(x) - test_size)
   training <- x_split$train
 
   fcast <- apply_selected_model(x = training, model_name = model_name, horizon = test_size)
